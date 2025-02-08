@@ -23,11 +23,13 @@ class IndexView(TemplateView):
 
 
 class PostList(ListView):
-    # queryset = Post.objects.all()
+    queryset = Post.objects.all()
+    # model = Post
+    ordering = "id"
 
-    def get_queryset(self):
-        posts = Post.objects.filter(status=False)
-        return posts
+    # def get_queryset(self):
+    #     posts = Post.objects.filter(status=True)
+    #     return posts
 
     context_object_name = "posts"
-    paginate_by = 2
+    # paginate_by = 2
