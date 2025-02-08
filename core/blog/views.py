@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from .models import Post
 
 # Create your views here.
@@ -20,3 +20,14 @@ class IndexView(TemplateView):
         context["title"] = "cbv-index"
         context["posts"] = Post.objects.all()
         return context
+
+
+class PostList(ListView):
+    # queryset = Post.objects.all()
+
+    def get_queryset(self):
+        posts = Post.objects.filter(status=False)
+        return posts
+
+    context_object_name = "posts"
+    paginate_by = 2
