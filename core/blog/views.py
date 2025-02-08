@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from .models import Post
 
 # Create your views here.
@@ -22,7 +22,7 @@ class IndexView(TemplateView):
         return context
 
 
-class PostList(ListView):
+class PostListView(ListView):
     queryset = Post.objects.all()
     # model = Post
     ordering = "id"
@@ -33,3 +33,7 @@ class PostList(ListView):
 
     context_object_name = "posts"
     # paginate_by = 2
+
+
+class PostDetailView(DetailView):
+    model = Post
