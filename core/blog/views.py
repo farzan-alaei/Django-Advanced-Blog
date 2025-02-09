@@ -70,7 +70,11 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     success_url = "/blog/post/"
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        profile = self.request.user.profile_set.first()
+        if not profile:
+            return self.form_invalid(form)
+
+        form.instance.author = profile
         return super().form_valid(form)
 
 
