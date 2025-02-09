@@ -5,6 +5,7 @@ from django.views.generic import (
     DetailView,
     FormView,
     CreateView,
+    UpdateView,
 )
 from .models import Post
 from .forms import PostForm
@@ -67,3 +68,9 @@ class PostCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class PostEditView(UpdateView):
+    model = Post
+    form_class = PostForm
+    success_url = "/blog/post/"
