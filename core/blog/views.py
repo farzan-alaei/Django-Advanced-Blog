@@ -8,7 +8,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import Post
 from .forms import PostForm
 
@@ -33,7 +33,8 @@ class IndexView(TemplateView):
         return context
 
 
-class PostListView(LoginRequiredMixin, ListView):
+class PostListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    permission_required = "blog.view_post"
     queryset = Post.objects.all()
     # model = Post
     ordering = "id"
