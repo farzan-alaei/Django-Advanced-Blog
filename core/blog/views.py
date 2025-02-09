@@ -12,6 +12,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from .models import Post
 from .forms import PostForm
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 # Create your views here.
 
 """
@@ -87,3 +90,8 @@ class PostEditView(LoginRequiredMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = "/blog/post/"
+
+@api_view(["GET"])
+def api_post_list_view(request):
+    if request.method == "GET":
+        return Response({"name": "farzan"})
