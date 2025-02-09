@@ -6,6 +6,7 @@ from django.views.generic import (
     FormView,
     CreateView,
     UpdateView,
+    DeleteView,
 )
 from .models import Post
 from .forms import PostForm
@@ -73,4 +74,9 @@ class PostCreateView(CreateView):
 class PostEditView(UpdateView):
     model = Post
     form_class = PostForm
+    success_url = "/blog/post/"
+
+
+class PostDeleteView(DeleteView):
+    model = Post
     success_url = "/blog/post/"
