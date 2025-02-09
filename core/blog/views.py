@@ -8,17 +8,19 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post
 from .forms import PostForm
 
 # Create your views here.
 
-
+"""
 def indexView(request):
     context = {
         "title": "fbv-index",
     }
     return render(request, "index.html", context=context)
+"""
 
 
 class IndexView(TemplateView):
@@ -31,7 +33,7 @@ class IndexView(TemplateView):
         return context
 
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin, ListView):
     queryset = Post.objects.all()
     # model = Post
     ordering = "id"
@@ -44,7 +46,7 @@ class PostListView(ListView):
     # paginate_by = 2
 
 
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin, DetailView):
     model = Post
 
 
@@ -60,7 +62,7 @@ class PostCreateView(FormView):
 """
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     # fields = ["author", "title", "content", "status", "category", "published_date"]
     form_class = PostForm
@@ -71,12 +73,12 @@ class PostCreateView(CreateView):
         return super().form_valid(form)
 
 
-class PostEditView(UpdateView):
+class PostEditView(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
     success_url = "/blog/post/"
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = "/blog/post/"
