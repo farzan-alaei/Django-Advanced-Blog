@@ -6,3 +6,8 @@ from blog.models import Post
 @api_view(["GET"])
 def postList(request):
     return Response("ok")
+
+
+@api_view(["GET"])
+def postDetail(request, id):
+    return Response(id)
