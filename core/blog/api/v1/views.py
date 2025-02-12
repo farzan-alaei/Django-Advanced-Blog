@@ -6,8 +6,8 @@ from rest_framework.permissions import (
     IsAuthenticatedOrReadOnly,
 )
 from rest_framework.response import Response
-from .serializers import PostSerializer
-from blog.models import Post
+from .serializers import PostSerializer, CategorySerializer
+from blog.models import Post, Category
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import viewsets
 
@@ -136,43 +136,13 @@ class PostDetail(RetrieveUpdateDestroyAPIView):
 """
 
 
-class PostViewSet(viewsets.ViewSet):
+class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
 
-    def list(self, request):
-        serializer = self.serializer_class(self.queryset, many=True)
-        return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
-        post_object = get_object_or_404(self.queryset, pk=pk)
-        serializer = self.serializer_class(post_object)
-        return Response(serializer.data)
-
-    def create(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-    def partial_update(self, request, pk=None):
-        post_object = get_object_or_404(self.queryset, pk=pk)
-        serializer = self.serializer_class(post_object, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
-    def destroy(self, request, pk=None):
-        post_object = get_object_or_404(self.queryset, pk=pk)
-        post_object.delete()
-        return Response(
-            {"detail": "item deleted successfully"}, status=status.HTTP_204_NO_CONTENT
-        )
-
-    def update(self, request, pk=None):
-        post_object = get_object_or_404(self.queryset, pk=pk)
-        serializer = self.serializer_class(post_object, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+class CategoryViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
