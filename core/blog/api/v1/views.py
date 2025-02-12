@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from .serializers import PostSerializer
 from blog.models import Post
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
 
 """
 @api_view(["GET", "POST"])
@@ -46,7 +47,7 @@ def postDetail(request, id):
         )
 """
 
-
+'''
 class PostList(APIView):
     """
     getting a list of posts and creating new posts
@@ -71,6 +72,17 @@ class PostList(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+'''
+
+
+class PostList(ListCreateAPIView):
+    """
+    getting a list of posts and creating new post
+    """
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = PostSerializer
+    queryset = Post.objects.filter(status=True)
 
 
 class PostDetail(APIView):
