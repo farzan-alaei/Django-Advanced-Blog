@@ -1,14 +1,19 @@
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from . import views
 
+router = DefaultRouter()
+router.register("post", views.PostViewSet, basename="post")
+urlpatterns = router.urls
 
 app_name = "api-v1"
 
+"""
 urlpatterns = [
-    # path("post/", views.postList, name="post-list"),
-    # path("post/<int:id>/", views.postDetail, name="post-detail"),
-    # path("post/", views.PostList.as_view(), name="post-list"),
-    # path("post/<int:pk>/", views.PostDetail.as_view(), name="post-detail"),
+    path("post/", views.postList, name="post-list"),
+    path("post/<int:id>/", views.postDetail, name="post-detail"),
+    path("post/", views.PostList.as_view(), name="post-list"),
+    path("post/<int:pk>/", views.PostDetail.as_view(), name="post-detail"),
     path(
         "post/",
         views.PostViewSet.as_view({"get": "list", "post": "create"}),
@@ -25,5 +30,6 @@ urlpatterns = [
             }
         ),
         name="post-detail",
-    ),
+    # ),
 ]
+"""
