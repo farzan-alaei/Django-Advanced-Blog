@@ -9,8 +9,9 @@ from rest_framework.permissions import (
 from django.shortcuts import get_object_or_404
 from .serializers import PostSerializer
 from blog.models import Post
+from rest_framework.views import APIView
 
-
+"""
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def postList(request):
@@ -23,6 +24,7 @@ def postList(request):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+"""
 
 
 @api_view(["GET", "PUT", "DELETE"])
@@ -42,3 +44,26 @@ def postDetail(request, id):
         return Response(
             {"detail": "item deleted successfully"}, status=status.HTTP_204_NO_CONTENT
         )
+
+
+class PostList(APIView):
+    """
+    getting a list of posts and creating new posts
+    """
+
+    def get(self, request):
+        """
+        retrieve a list of posts
+        """
+        posts = Post.objects.filter(status=True)
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        """
+        creating a post with provided data
+        """
+        serializer = PostSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
