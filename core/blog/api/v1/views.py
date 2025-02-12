@@ -1,16 +1,10 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.permissions import (
-    IsAdminUser,
     IsAuthenticatedOrReadOnly,
-    IsAuthenticated,
 )
-from django.shortcuts import get_object_or_404
 from .serializers import PostSerializer
 from blog.models import Post
-from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 """
 @api_view(["GET", "POST"])
@@ -85,6 +79,7 @@ class PostList(ListCreateAPIView):
     queryset = Post.objects.filter(status=True)
 
 
+'''
 class PostDetail(APIView):
     """
     getting a single post
@@ -123,3 +118,10 @@ class PostDetail(APIView):
         return Response(
             {"detail": "item deleted successfully"}, status=status.HTTP_204_NO_CONTENT
         )
+'''
+
+
+class PostDetail(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = PostSerializer
+    queryset = Post.objects.filter(status=True)
