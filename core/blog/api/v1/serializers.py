@@ -13,6 +13,9 @@ from blog.models import Post, Category
 
 
 class PostSerializer(serializers.ModelSerializer):
+    snippet = serializers.ReadOnlyField(source="get_snippet")
+    relative_url = serializers.URLField(source="get_absolute_api_url", read_only=True)
+
     class Meta:
         model = Post
         fields = [
@@ -21,6 +24,8 @@ class PostSerializer(serializers.ModelSerializer):
             "author",
             "category",
             "content",
+            "snippet",
+            "relative_url",
             "status",
             "created_date",
             "published_date",
