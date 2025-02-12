@@ -26,7 +26,7 @@ def postList(request):
         return Response(serializer.data)
 """
 
-
+"""
 @api_view(["GET", "PUT", "DELETE"])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def postDetail(request, id):
@@ -44,12 +44,14 @@ def postDetail(request, id):
         return Response(
             {"detail": "item deleted successfully"}, status=status.HTTP_204_NO_CONTENT
         )
+"""
 
 
 class PostList(APIView):
     """
     getting a list of posts and creating new posts
     """
+
     permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
 
@@ -69,3 +71,43 @@ class PostList(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+
+class PostDetail(APIView):
+    """
+    getting a single post
+    """
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = PostSerializer
+
+    def get_object(self, id):
+        """
+        getting a single post
+        """
+        return get_object_or_404(Post, pk=id, status=True)
+
+    def get(self, request, id):
+        post = self.get_object(id)
+        serializer = self.serializer_class(post)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        """
+        updating a post
+        """
+        post = self.get_object(id)
+        serializer = self.serializer_class(post, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def delete(self, request, id):
+        """
+        deleting a post
+        """
+        post = self.get_object(id)
+        post.delete()
+        return Response(
+            {"detail": "item deleted successfully"}, status=status.HTTP_204_NO_CONTENT
+        )
