@@ -1,16 +1,12 @@
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.views import APIView
-from rest_framework import status
-from django.shortcuts import get_object_or_404
 from rest_framework.permissions import (
     IsAuthenticatedOrReadOnly,
 )
-from rest_framework.response import Response
+from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import PostSerializer, CategorySerializer
 from blog.models import Post, Category
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework import viewsets
 from .permissions import IsOwnerOrReadOnly
+
 
 """
 @api_view(["GET", "POST"])
@@ -141,6 +137,8 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["category", "author", "status"]
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
