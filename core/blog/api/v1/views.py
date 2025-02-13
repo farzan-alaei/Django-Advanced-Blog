@@ -10,6 +10,7 @@ from .serializers import PostSerializer, CategorySerializer
 from blog.models import Post, Category
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import viewsets
+from .permissions import IsOwnerOrReadOnly
 
 """
 @api_view(["GET", "POST"])
@@ -137,7 +138,7 @@ class PostDetail(RetrieveUpdateDestroyAPIView):
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
 
