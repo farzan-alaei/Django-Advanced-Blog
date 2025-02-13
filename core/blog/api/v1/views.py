@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import PostSerializer, CategorySerializer
 from blog.models import Post, Category
 from .permissions import IsOwnerOrReadOnly
+from .paginations import DefaultPagination
 
 
 """
@@ -142,6 +143,7 @@ class PostViewSet(viewsets.ModelViewSet):
     filterset_fields = ["category", "author", "status"]
     search_fields = ["title", "content"]
     ordering_fields = ["published_date"]
+    pagination_class = DefaultPagination
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
