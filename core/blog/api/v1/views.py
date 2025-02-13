@@ -2,6 +2,7 @@ from rest_framework.permissions import (
     IsAuthenticatedOrReadOnly,
 )
 from rest_framework import viewsets
+from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import PostSerializer, CategorySerializer
 from blog.models import Post, Category
@@ -137,8 +138,9 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     serializer_class = PostSerializer
     queryset = Post.objects.filter(status=True)
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ["category", "author", "status"]
+    search_fields = ["title", "content"]
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
