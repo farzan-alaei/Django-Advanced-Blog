@@ -9,6 +9,7 @@ urlpatterns = router.urls
 
 app_name = "api-v1"
 
+
 """
 urlpatterns = [
     path("post/", views.postList, name="post-list"),
