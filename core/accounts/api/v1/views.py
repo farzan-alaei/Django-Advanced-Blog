@@ -15,7 +15,7 @@ from .serializers import (
 )
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-from django.core.mail import send_mail
+from mail_templated import send_mail
 from accounts.models import Profile
 
 User = get_user_model()
@@ -103,10 +103,9 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
 class TestEmailSend(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         send_mail(
-            "subject",
-            "message",
-            "from",
-            ["to"],
-            fail_silently=False,
+            "email/hello.tpl",
+            {"name": "farzan"},
+            "admin@admin.com",
+            ["farzan.alaei@yahoo.com"],
         )
         return Response("email sent")
