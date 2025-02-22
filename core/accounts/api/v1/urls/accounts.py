@@ -9,6 +9,11 @@ from .. import views
 urlpatterns = [
     # registration
     path("registration/", views.RegistrationApiView.as_view(), name="registration"),
+    path("test-email", views.TestEmailSend.as_view(), name="test-email"),
+    # activation
+    # path("activation/confirm/"),
+    # resend activation
+    # path("activation/resend/"),
     # change password
     path(
         "change-password/",
