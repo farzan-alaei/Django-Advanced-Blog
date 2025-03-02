@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, RedirectView
 app_name = "blog"
 
 urlpatterns = [
-    # path("cbv-index/", views.IndexView.as_view(), name="cbv-index"),
+    path("", views.IndexView.as_view(), name="index"),
     # path("go-to/", RedirectView.as_view(pattern_name="blog:fbv-index"), name="go-to"),
     path("post/", views.PostListView.as_view(), name="post-list"),
     path(
