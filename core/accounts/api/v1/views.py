@@ -38,9 +38,7 @@ class RegistrationApiView(generics.CreateAPIView):
             data = {
                 "email": email,
             }
-            user_obj = get_object_or_404(
-                User, email=serializer.validated_data["email"]
-            )
+            user_obj = get_object_or_404(User, email=serializer.validated_data["email"])
             token = self.get_tokens_for_user(user_obj)
             email_obj = EmailMessage(
                 "email/activation_email.tpl",
@@ -67,9 +65,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
         token, created = Token.objects.get_or_create(user=user)
-        return Response(
-            {"token": token.key, "user_id": user.pk, "email": user.email}
-        )
+        return Response({"token": token.key, "user_id": user.pk, "email": user.email})
 
 
 class CustomDiscardAuthToken(APIView):
@@ -99,9 +95,7 @@ class CustomChangePasswordView(generics.GenericAPIView):
 
         if serializer.is_valid():
             # check old password
-            if not self.object.check_password(
-                serializer.data.get("old_password")
-            ):
+            if not self.object.check_password(serializer.data.get("old_password")):
                 return Response(
                     {"old_password": ["Wrong password."]},
                     status=status.HTTP_400_BAD_REQUEST,
@@ -150,9 +144,7 @@ class TestEmailSend(generics.GenericAPIView):
 class ActivationApiView(APIView):
     def get(self, request, token, *args, **kwargs):
         try:
-            token = jwt.decode(
-                token, settings.SECRET_KEY, algorithms=["HS256"]
-            )
+            token = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
             user_id = token.get("user_id")
         except ExpiredSignatureError:
             return Response(
@@ -167,14 +159,10 @@ class ActivationApiView(APIView):
         user_obj = User.objects.get(pk=user_id)
         user_obj.is_verified = True
         if user_obj.is_verified:
-            return Response(
-                {"details": "your account has already been verified."}
-            )
+            return Response({"details": "your account has already been verified."})
         user_obj.save()
         return Response(
-            {
-                "details": "Your account have been verified and activated successfully."
-            }
+            {"details": "Your account have been verified and activated successfully."}
         )
 
 
