@@ -1,5 +1,6 @@
 from rest_framework.permissions import (
     IsAuthenticatedOrReadOnly,
+    IsAuthenticated,
 )
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -151,6 +152,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
