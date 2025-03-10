@@ -7,6 +7,7 @@ urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
     # path("go-to/", RedirectView.as_view(pattern_name="blog:fbv-index"), name="go-to"),
     path("post/", views.PostListView.as_view(), name="post-list"),
+    path("post/api/", views.PostListApiView.as_view(), name="post-list-api"),
     path("post/<int:pk>/", views.PostDetailView.as_view(), name="post-detail"),
     path("post/create/", views.PostCreateView.as_view(), name="post-create"),
     path("post/<int:pk>/edit", views.PostEditView.as_view(), name="post-edit"),
