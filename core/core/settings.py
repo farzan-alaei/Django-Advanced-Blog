@@ -174,3 +174,6 @@ EMAIL_USE_TLS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5500",
 ]
+
+# celery config
+CELERY_BROKER_URL = "redis://redis:6379/1"
