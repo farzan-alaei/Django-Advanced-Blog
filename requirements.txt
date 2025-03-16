@@ -28,4 +28,5 @@ Faker
 
 # Background Process and cache
 celery
+Redis
 
