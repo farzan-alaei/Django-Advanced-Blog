@@ -8,6 +8,7 @@ def send_email(request):
     sendEmail.delay()
     return HttpResponse("<h1>Email sent</h1>")
 
+
 @cache_page(60)
 def test(request):
     response = requests.get(
