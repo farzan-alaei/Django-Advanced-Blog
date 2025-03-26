@@ -13,7 +13,7 @@ djoser
 django-cors-headers
 
 # deployment modules
-
+gunicorn
 
 # Email Third party Modules
 django_mail_templated
